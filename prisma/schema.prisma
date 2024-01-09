@@ -58,20 +58,19 @@ model VerificationToken {
 }
 
 model Test {
-  id                String          @id @default(cuid())
-  title             String
-  questions         TestQuestion[]
-  testResults       TestResult[]
-  maxScore          Int
-  avgScore          Int?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-  createdBy         User            @relation(fields: [createdByUserId], references: [id])
-  subjectCategory   SubjectCategory @relation(fields: [subjectCategoryId], references: [id])
-  gradeCategory     GradeCategory   @relation(fields: [gradeCategoryId], references: [id])
-  subjectCategoryId String
-  gradeCategoryId   String
-  createdByUserId   String
+  id              String         @id @default(cuid())
+  name            String
+  questions       TestQuestion[]
+  testResults     TestResult[]
+  maxScore        Int
+  avgScore        Int?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  createdBy       User?          @relation(fields: [createdByUserId], references: [id])
+  subject         Subject        @relation(fields: [subjectId], references: [id])
+  subjectId       String
+  grades          Int[] // which grades (1st, 2nd, 12th, etc) this test is made for
+  createdByUserId String?
 }
 
 model TestQuestion {
@@ -82,6 +81,7 @@ model TestQuestion {
   // prisma doesn't yet support union types so we can't use something like `options (TextQuestion | RadioQuestion)[]`
   options           TestQuestionOption[]
   correctAnswerText String?
+  explanation       String?
 }
 
 model TestQuestionOption {
@@ -103,13 +103,7 @@ model TestResult {
   createdAt       DateTime @default(now())
 }
 
-model SubjectCategory {
-  id    String @id @default(cuid())
-  title String
-  tests Test[]
-}
-
-model GradeCategory {
+model Subject {
   id    String @id @default(cuid())
   title String
   tests Test[]

@@ -1,11 +1,18 @@
-const TestQuestionTypeEnum = {
-  RADIO: 1,
-  CHECKBOX: 2,
-  TEXT: 3,
+import GetUnion from "../GetUnion";
+
+export const TEST_QUESTION_TYPE = {
+  TEXT: 1,
+  RADIO: 2,
+  CHECKBOX: 3,
   TABLE: 4,
 } as const;
 
-export type TestQuestionType =
-  (typeof TestQuestionTypeEnum)[keyof typeof TestQuestionTypeEnum];
+export const TEST_QUESTION_TYPE_LABEL = {
+  CHECKBOX: "Множественный выбор",
+  RADIO: "Одиночный выбор",
+  TABLE: "Таблица",
+  TEXT: "Текст",
+} as const satisfies Record<keyof typeof TEST_QUESTION_TYPE, string>;
 
-export default TestQuestionTypeEnum;
+export type TestQuestionType = GetUnion<typeof TEST_QUESTION_TYPE>;
+export type TestQuestionTypeLabel = GetUnion<typeof TEST_QUESTION_TYPE_LABEL>;

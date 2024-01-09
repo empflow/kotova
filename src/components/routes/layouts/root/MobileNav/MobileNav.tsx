@@ -13,12 +13,12 @@ export default async function MobileNav() {
   const session = await auth();
   const navItems: NavItem[] = [
     {
-      href: "/tests",
+      href: "/subjects",
       label: "Тесты",
       icon: <ListTodoIcon />,
     },
     {
-      href: "/dashboard",
+      href: "/my",
       label: "Лич. Кабинет",
       icon: <LayoutDashboardIcon />,
     },
